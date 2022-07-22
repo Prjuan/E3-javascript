@@ -44,24 +44,31 @@ let titulo2 = document.querySelector("h2");
 let titulo4 = document.getElementById("precio");
 let errorMensaje = document.querySelector("p");
 
-function buscarid() {
-   let numero = parseInt(codigo.value)
-         array_pizzas.forEach(pizzas =>{
-           if(pizzas.id === numero){
-                titulo2.innerHTML = pizzas.nombre;
-                titulo4.innerHTML = pizzas.precio;
-           }  else if (numero > 6){
-                titulo2.innerHTML = "";
-                titulo4.innerHTML = "";
-                mostrarError("No existe ese articulo");
-           } 
-        }) 
-}
 
+
+function buscarid() {
+    let numero = parseInt(codigo.value)
+    const resultado = array_pizzas.find(function(pizza){
+        return pizza.id === numero;
+    });
+    if(resultado) {
+        titulo2.innerHTML = resultado.nombre;
+        titulo4.innerHTML = resultado.precio;
+    } else {
+        titulo2.innerHTML = "";
+        titulo4.innerHTML = "";
+        mostrarError("No existe");
+        setTimeout(() => {
+            mostrarError("");
+            codigo.value = "";
+        }, 3000)
+    }
+}
+  
 btn.addEventListener("click", buscarid);
 
 function mostrarError(error) {
-    // errorMensaje.textContent = error;
-    errorMensaje.innerHTML = error;
+    errorMensaje.innerHTML = error;   
 }
+
 
